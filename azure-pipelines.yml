@@ -37,3 +37,17 @@ steps:
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)' 
     artifactName: 'myWebsiteName'
+
+# do this near the end of your pipeline in most cases
+- script: dotnet pack /p:PackageVersion=$(version)  # define version variable elsewhere in your pipeline
+- task: NuGetAuthenticate@0
+  input:
+    nuGetServiceConnections: 'TestNuGet connection>'
+- task: NuGetCommand@2
+  inputs:
+    command: push
+    nuGetFeedType: external
+    publishFeedCredentials: 'TestNuGet connection'
+    versioningScheme: byEnvVar
+    versionEnvVar: version
+
