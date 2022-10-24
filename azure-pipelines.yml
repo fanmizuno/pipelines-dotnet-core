@@ -41,7 +41,7 @@ steps:
 # do this near the end of your pipeline in most cases
 - script: dotnet pack /p:PackageVersion=$(version)  # define version variable elsewhere in your pipeline
 - task: NuGetAuthenticate@0
-  input:
+  inputs:
     nuGetServiceConnections: 'TestNuGet connection>'
 - task: NuGetCommand@2
   inputs:
